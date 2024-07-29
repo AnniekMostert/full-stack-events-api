@@ -1,0 +1,46 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:dev.db"
+  relationMode = "prisma"
+}
+
+model User {
+  id          String  @id @default(uuid())
+  username    String  @unique
+  password    String
+  name        String
+  image       String
+  events      Event[]
+}
+
+model Event {
+  id          String  @id @default(uuid())
+  createdBy   String
+  title       String
+  description String
+  image       String
+  categoryIds Category[]
+  location    String
+  startTime   DateTime
+  endTime     DateTime
+
+  user User @relation(fields: [createdBy], references: [id])
+
+  @@index([createdBy])
+}
+
+model Category {
+  id          String @id @default(uuid())
+  name        String
+  events      Event[]
+}
