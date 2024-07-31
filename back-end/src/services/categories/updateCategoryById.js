@@ -7,7 +7,7 @@ const updateCategoryById = async (id, updatedCategory) => {
     data: updatedCategory,
   });
 
-  return category;
+  return category.count > 0 ? id : null;
 };
 
 export default updateCategoryById;

@@ -11,9 +11,9 @@ import { formatISOToNormal } from "./formatISOToNormal";
 export const EventCard = ({ event, categories }) => {
   const date = formatISOToNormal(event.startTime).dateDMY;
   const time = formatISOToNormal(event.startTime).time + " - " + formatISOToNormal(event.endTime).time;
-
-  const categoryNames = event.categoryIds.map((categoryId) => {
-    const category = categories.find((category) => category.id === categoryId);
+  
+  const categoryNames = event.categories.map(({id}) => {
+    const category = categories.find((category) => category.id === id);
     return category && category.name;
   });
 

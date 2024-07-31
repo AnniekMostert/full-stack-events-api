@@ -11,8 +11,7 @@ const createEvent = async (
   categoryIds
 ) => {
   const prisma = new PrismaClient();
-
-  const newEvent = await prisma.event.create({
+  const event = await prisma.event.create({
     data: {
       title,
       description,
@@ -23,13 +22,13 @@ const createEvent = async (
       createdBy: {
         connect: { id: createdBy },
       },
-      categoryIds: {
-        connect: categoryIds.map((categoryId) => ({ id: categoryId })),
+      categories: {
+        connect: categoryIds.map((id) => ({ id })),
       },
     },
   });
 
-  return newEvent;
+  return event;
 };
 
 export default createEvent;

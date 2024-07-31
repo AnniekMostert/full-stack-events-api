@@ -2,21 +2,27 @@ import { PrismaClient } from "@prisma/client";
 
 const updateEventById = async (id, updatedEvent) => {
   const prisma = new PrismaClient();
-  const { createdBy, categoryIds, ...rest } = updatedEvent;
 
-  const event = await prisma.event.updateMany({
-    where: {
-      id,
-    },
+  const { categoryIds, createdBy, ...rest } = updatedEvent;
+
+  // Here we can't use updateMany() because we need to update the createdBy and categories fields if it is passed
+  const event = await prisma.event.update({
+    where: { id },
     data: {
       ...rest,
-      createdBy: createdBy ? { connect: { id: createdBy } } : undefined,
-      categoryIds: categoryIds
-        ? { connect: categoryIds.map((categoryId) => ({ id: categoryId })) }
+      createdBy: createdBy
+        ? {
+            connect: { id: createdBy },
+          }
+        : undefined,
+      categories: categoryIds
+        ? {
+            set: categoryIds.map((id) => ({ id })),
+          }
         : undefined,
     },
   });
-  
+
   return event;
 };
 

@@ -1,15 +1,17 @@
-import winston from 'winston'
+import winston from "winston";
 
 const logger = winston.createLogger({
-  level: 'info',
+  level: "info",
   format: winston.format.json(),
-  defaultMeta: { service: 'bookstore-api' }
-})
+  defaultMeta: { service: "events-api" },
+});
 
-if (process.env.NODE_ENV !== 'production') {
-  logger.add(new winston.transports.Console({
-    format: winston.format.simple()
-  }))
+if (process.env.NODE_ENV !== "production") {
+  logger.add(
+    new winston.transports.Console({
+      format: winston.format.simple(),
+    })
+  );
 }
 
-export default logger
+export default logger;

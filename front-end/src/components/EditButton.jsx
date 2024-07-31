@@ -182,7 +182,7 @@ export const EditButton = ({ event, categories }) => {
                         variant="modal"
                         name={category.id}
                         value={category.id}
-                        defaultChecked={event.categoryIds.includes(category.id)}
+                        defaultChecked={event.categories.includes(category.id)}
                         {...register("categoryIds", {
                           validate: (value) =>
                             value.length > 0 ||

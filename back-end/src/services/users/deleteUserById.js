@@ -2,11 +2,11 @@ import { PrismaClient } from "@prisma/client";
 
 const deleteUserById = async (id) => {
   const prisma = new PrismaClient();
-  const deletedUser = await prisma.user.deleteMany({
+  const user = await prisma.user.deleteMany({
     where: { id },
   });
 
-  return deletedUser;
+  return user.count > 0 ? id : null;
 };
 
 export default deleteUserById;

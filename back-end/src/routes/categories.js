@@ -12,8 +12,8 @@ router.get("/", async (req, res, next) => {
   try {
     const categories = await getCategories();
     res.json(categories);
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 });
 
@@ -22,12 +22,9 @@ router.post("/", auth, async (req, res, next) => {
     const { name } = req.body;
     const newCategory = await createCategory(name);
 
-    res.status(201).send({
-      message: `Category succesfully created`,
-      newCategory,
-    });
-  } catch (err) {
-    next(err);
+    res.status(201).json(newCategory);
+  } catch (error) {
+    next(error);
   }
 });
 
@@ -37,31 +34,32 @@ router.get("/:id", async (req, res, next) => {
     const category = await getCategoryById(id);
 
     if (!category) {
-      res.status(404).json({ message: `Category with id ${id} was not found` });
+      res.status(404).json({ message: `Category with id ${id} not found` });
     } else {
       res.status(200).json(category);
     }
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 });
 
 router.delete("/:id", auth, async (req, res, next) => {
   try {
     const { id } = req.params;
-    const deletedCategory = await deleteCategoryById(id);
+    const category = await deleteCategoryById(id);
 
-    if (!deletedCategory || deletedCategory.count === 0) {
-      res.status(404).json({
-        message: `Category with id ${id} was not found`,
-      });
-    } else {
+    if (category) {
       res.status(200).send({
         message: `Category with id ${id} successfully deleted`,
+        category,
+      });
+    } else {
+      res.status(404).json({
+        message: `Category with id ${id} not found`,
       });
     }
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 });
 
@@ -71,17 +69,17 @@ router.put("/:id", auth, async (req, res, next) => {
     const { name } = req.body;
     const category = await updateCategoryById(id, { name });
 
-    if (!category || category.count === 0) {
-      res.status(404).json({
-        message: `Category with id ${id} was not found`,
-      });
-    } else {
+    if (category) {
       res.status(200).send({
         message: `Category with id ${id} successfully updated`,
       });
+    } else {
+      res.status(404).json({
+        message: `Category with id ${id} not found`,
+      });
     }
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 });
 

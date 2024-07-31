@@ -7,7 +7,7 @@ const updateUserById = async (id, updatedUser) => {
     data: updatedUser,
   });
 
-  return user;
+  return user.count > 0 ? id : null;
 };
 
 export default updateUserById;

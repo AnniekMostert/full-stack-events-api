@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   Box,
-  Button,
   Container,
   Flex,
   Heading,
@@ -38,27 +37,6 @@ export const EventsPage = () => {
   return (
     <Container className="events-page" maxW="100%" margin={0}>
       <Box position="relative">
-        <Link to={`add-event`}>
-          <Button
-            display={{ base: "none", md: "inline-block" }}
-            width="100px"
-            height="100px"
-            variant="modal"
-            whiteSpace="normal"
-            fontWeight="bold"
-            position="absolute"
-            top="50%"
-            transform="translateY(-50%)"
-            right="calc((100vw - 2rem - 650px) / 4)"
-            boxShadow="4px 4px 5px rgba(0, 0, 0, 0.3)"
-            transition="boxShadow 0.6s ease"
-            _hover={{
-              boxShadow: "5px 5px 7px rgba(0, 0, 0, 0.6)",
-            }}
-          >
-            Add new event
-          </Button>
-        </Link>
         <Flex direction="column" maxW="450px" my={5} mx="auto">
           <Heading>List of events</Heading>
           <Input

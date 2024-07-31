@@ -13,8 +13,8 @@ router.get("/", async (req, res, next) => {
     const { title, location } = req.query;
     const events = await getEvents(title, location);
     res.json(events);
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 });
 
@@ -40,12 +40,9 @@ router.post("/", auth, async (req, res, next) => {
       createdBy,
       categoryIds
     );
-    res.status(201).send({
-      message: `Event succesfully created`,
-      newEvent,
-    });
-  } catch (err) {
-    next(err);
+    res.status(201).json(newEvent);
+  } catch (error) {
+    next(error);
   }
 });
 
@@ -55,31 +52,31 @@ router.get("/:id", async (req, res, next) => {
     const event = await getEventById(id);
 
     if (!event) {
-      res.status(404).json({ message: `Event with id ${id} was not found` });
+      res.status(404).json({ message: `Event with id ${id} not found` });
     } else {
       res.status(200).json(event);
     }
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 });
 
 router.delete("/:id", auth, async (req, res, next) => {
   try {
     const { id } = req.params;
-    const deletedEvent = await deleteEventById(id);
+    const event = await deleteEventById(id);
 
-    if (!deletedEvent || deletedEvent.count === 0) {
-      res.status(404).json({
-        message: `Event with id ${id} was not found`,
+    if (event) {
+      res.status(200).send({
+        message: `Event with id ${id} successfully deleted`,
       });
     } else {
-      res.status(200).send({
-        message: `Event with id ${id} is successfully deleted`,
+      res.status(404).json({
+        message: `Event with id ${id} not found`,
       });
     }
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 });
 
@@ -107,17 +104,17 @@ router.put("/:id", auth, async (req, res, next) => {
       categoryIds,
     });
 
-    if (!event || event.count === 0) {
-      res.status(404).json({
-        message: `Event with id ${id} was not found`,
-      });
-    } else {
+    if (event) {
       res.status(200).send({
         message: `Event with id ${id} successfully updated`,
       });
+    } else {
+      res.status(404).json({
+        message: `Event with id ${id} not found`,
+      });
     }
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 });
 

@@ -2,11 +2,11 @@ import { PrismaClient } from "@prisma/client";
 
 const deleteCategoryById = async (id) => {
   const prisma = new PrismaClient();
-  const deletedCategory = await prisma.category.deleteMany({
+  const category = await prisma.category.deleteMany({
     where: { id },
   });
 
-  return deletedCategory;
+  return category.count > 0 ? id : null;
 };
 
 export default deleteCategoryById;
