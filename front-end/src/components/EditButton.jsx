@@ -18,7 +18,6 @@ import {
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { formatISOToNormal } from "./formatISOToNormal";
-import { formatNormalToISO } from "./formatNormalToISO";
 
 export const EditButton = ({ event, categories }) => {
   const toast = useToast();
@@ -31,16 +30,17 @@ export const EditButton = ({ event, categories }) => {
     reset,
   } = useForm({ defaultValues: event });
 
+  const STIME = getValues("startingTime");
+  const SDATE = getValues("startingDate");
+  const ETIME = getValues("endingTime");
+  const EDATE = getValues("endingDate");
+
   const validateEndtime = () => {
-    const ST = getValues("startingTime");
-    const SD = getValues("startingDate");
-    const ET = getValues("endingTime");
-    const ED = getValues("endingDate");
-    if (SD === ED) {
-      if (ST > ET) {
+    if (SDATE === EDATE) {
+      if (STIME > ETIME) {
         return "The end time cannot be before the start time";
       }
-      if (ST === ET) {
+      if (STIME === ETIME) {
         return "I think your event takes longer than that 😄";
       }
     }
@@ -48,14 +48,8 @@ export const EditButton = ({ event, categories }) => {
   };
 
   const onSubmit = async (data) => {
-    const startTime = formatNormalToISO(
-      getValues("startingDate"),
-      getValues("startingTime")
-    );
-    const endTime = formatNormalToISO(
-      getValues("endingDate"),
-      getValues("endingTime")
-    );
+    const startTime = new Date(`${SDATE}T${STIME}`).toISOString();
+    const endTime = new Date(`${EDATE}T${ETIME}`).toISOString();
 
     const editedEvent = {
       createdBy: event.createdBy,
@@ -267,11 +261,11 @@ export const EditButton = ({ event, categories }) => {
                 <Divider borderColor="red.700" opacity="1" borderWidth={1} />
 
                 <Flex direction={{ base: "column", sm: "row" }} gap="10px">
+                  <Button variant="back" onClick={onClose} flex={{ sm: 1 }}>
+                    Back
+                  </Button>
                   <Button type="submit" variant="modal" flex={{ sm: 1 }}>
                     Edit event
-                  </Button>
-                  <Button variant="modal" onClick={onClose} flex={{ sm: 1 }}>
-                    Back
                   </Button>
                 </Flex>
               </Flex>

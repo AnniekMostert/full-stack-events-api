@@ -9,6 +9,7 @@ import loginRouter from "./routes/login.js";
 import log from "./middleware/logMiddleware.js";
 import errorHandler from "./middleware/errorHandler.js";
 import cors from "cors";
+import dashboardRouter from "./routes/dashboard.js";
 
 const app = express();
 
@@ -42,6 +43,7 @@ app.use(log);
 app.use("/users", usersRouter);
 app.use("/events", eventsRouter);
 app.use("/categories", categoriesRouter);
+app.use("/dashboard", dashboardRouter);
 
 // Login
 app.use("/login", loginRouter);

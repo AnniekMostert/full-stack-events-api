@@ -1,8 +1,9 @@
 import { Button, Flex, Heading } from "@chakra-ui/react";
 import React from "react";
 import { Link } from "react-router-dom";
+import Login from "./Login";
 
-export const Header = () => {
+export const Header = ({ user }) => {
   const stickyStyle = {
     position: ["sticky", "-webkit-sticky"],
     top: "0",
@@ -23,9 +24,18 @@ export const Header = () => {
         <Link to="/">
           <Button>All events</Button>
         </Link>
-        <Link to="/add-event">
-          <Button>Add event</Button>
-        </Link>
+        {user ? (
+          <>
+            <Link to="/add-event">
+              <Button>Add event</Button>
+            </Link>
+            <Link to="/logout">
+              <Button>Logout</Button>
+            </Link>
+          </>
+        ) : (
+          <Login onLogin={handleLogin} />
+        )}
       </Flex>
     </Flex>
   );

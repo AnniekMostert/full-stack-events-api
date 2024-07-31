@@ -9,54 +9,50 @@ import {
   FormLabel,
   Heading,
   Input,
-  Select,
   Stack,
   Text,
   useToast,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { Link, useLoaderData, useNavigate } from "react-router-dom";
-import { formatNormalToISO } from "../components/formatNormalToISO";
 
 export const loader = async () => {
-  const users = await fetch(`http://localhost:3000/users`);
   const categories = await fetch(`http://localhost:3000/categories`);
   return {
-    users: await users.json(),
     categories: await categories.json(),
   };
 };
 
-export const AddEvent = () => {
-  const { users, categories } = useLoaderData();
+export const AddEvent = ({ user }) => {
+  const { categories } = useLoaderData();
   const navigate = useNavigate();
   const toast = useToast();
 
   // defaultValues for testing:
-  // const defaultValues = {
-  //   createdBy: "2",
-  //   title: "Boogschieten",
-  //   description: "Boogschietworkshop voor kinderen en volwassenen",
-  //   image: "../boogschieten.jpg",
-  //   categoryIds: ["1"],
-  //   location: "Panbos",
-  //   startingDate: "2024-07-06",
-  //   startingTime: "14:00",
-  //   endingDate: "2024-07-06",
-  //   endingTime: "15:30",
-  // };
   const defaultValues = {
-    createdBy: "",
-    title: "",
-    description: "",
-    image: "",
-    categoryIds: [],
-    location: "",
-    startingDate: "",
-    startingTime: "",
-    endingDate: "",
-    endingTime: "",
+    createdBy: "2",
+    title: "Boogschieten",
+    description: "Boogschietworkshop voor kinderen en volwassenen",
+    image: "../boogschieten.jpg",
+    categoryIds: ["1"],
+    location: "Panbos",
+    startingDate: "2024-07-06",
+    startingTime: "14:00",
+    endingDate: "2024-07-06",
+    endingTime: "15:30",
   };
+  // const defaultValues = {
+  //   createdBy: "",
+  //   title: "",
+  //   description: "",
+  //   image: "",
+  //   categoryIds: [],
+  //   location: "",
+  //   startingDate: "",
+  //   startingTime: "",
+  //   endingDate: "",
+  //   endingTime: "",
+  // };
 
   const {
     handleSubmit,
@@ -66,16 +62,17 @@ export const AddEvent = () => {
     reset,
   } = useForm({ defaultValues });
 
+  const STIME = getValues("startingTime");
+  const SDATE = getValues("startingDate");
+  const ETIME = getValues("endingTime");
+  const EDATE = getValues("endingDate");
+
   const validateEndtime = () => {
-    const ST = getValues("startingTime");
-    const SD = getValues("startingDate");
-    const ET = getValues("endingTime");
-    const ED = getValues("endingDate");
-    if (SD === ED) {
-      if (ST > ET) {
+    if (SDATE === EDATE) {
+      if (STIME > ETIME) {
         return "The end time cannot be before the start time";
       }
-      if (ST === ET) {
+      if (STIME === ETIME) {
         return "I think your event takes longer than that 😄";
       }
     }
@@ -83,17 +80,11 @@ export const AddEvent = () => {
   };
 
   const onSubmit = async (data) => {
-    const startTime = formatNormalToISO(
-      getValues("startingDate"),
-      getValues("startingTime")
-    );
-    const endTime = formatNormalToISO(
-      getValues("endingDate"),
-      getValues("endingTime")
-    );
+    const startTime = new Date(`${SDATE}T${STIME}`).toISOString();
+    const endTime = new Date(`${EDATE}T${ETIME}`).toISOString();
 
     const newEvent = {
-      createdBy: Number(data.createdBy),
+      createdBy: Number(user.id),
       title: data.title,
       description: data.description,
       image: data.image,
@@ -174,26 +165,7 @@ export const AddEvent = () => {
               <FormLabel>
                 My name <span style={{ color: "red" }}>*</span>
               </FormLabel>
-              <Select
-                name="createdBy"
-                placeholder="Select user"
-                borderColor="red.700"
-                _hover={{ borderColor: "red.700", bgColor: "teal.200" }}
-                _focusVisible={{
-                  borderColor: "red.700",
-                  bgColor: "teal.200",
-                }}
-                {...register("createdBy", {
-                  required: "Select your name",
-                })}
-              >
-                {users.map((user) => (
-                  <option key={user.id} value={user.id}>
-                    {user.name}
-                  </option>
-                ))}
-              </Select>
-              <Text color="red.500">{errors.createdBy?.message}</Text>
+              <Text>{user.name}</Text>
             </FormControl>
 
             <FormControl className="title">
@@ -334,11 +306,15 @@ export const AddEvent = () => {
             <Divider borderColor="red.700" opacity="1" borderWidth={1} />
 
             <Flex direction={{ base: "column", sm: "row" }} gap="10px">
+              <Button
+                variant="back"
+                flex={{ sm: 1 }}
+                onClick={() => navigate("/")}
+              >
+                Back
+              </Button>
               <Button type="submit" flex={{ sm: 1 }}>
                 Add event
-              </Button>
-              <Button flex={{ sm: 1 }} onClick={() => navigate("/")}>
-                Back
               </Button>
             </Flex>
           </Flex>

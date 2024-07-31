@@ -26,16 +26,15 @@ export const loader = async ({ params }) => {
   };
 };
 
-export const EventPage = () => {
+export const EventPage = ({ user }) => {
   const { event, categories, users } = useLoaderData();
-console.log(event);
   const date = formatISOToNormal(event.startTime).dateDMY;
   const time =
     formatISOToNormal(event.startTime).time +
     " - " +
     formatISOToNormal(event.endTime).time;
 
-  const categoryNames = event.categories.map(({id}) => {
+  const categoryNames = event.categories.map(({ id }) => {
     const category = categories.find((category) => category.id === id);
     return category && category.name;
   });
@@ -155,10 +154,16 @@ console.log(event);
             >
               Actions:
             </Text>
-            <EditButton event={event} categories={categories} />
-            <DeleteButton event={event} />
+            {user && event && user.id === event.userId (
+              <>
+                <EditButton event={event} categories={categories} />
+                <DeleteButton event={event} />
+              </>
+            )}
             <Link to={`/`}>
-              <Button minW="100%">Back to home</Button>
+              <Button variant="back" minW="100%">
+                Back to home
+              </Button>
             </Link>
           </Box>
 

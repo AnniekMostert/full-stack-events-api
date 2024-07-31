@@ -19,8 +19,15 @@ const modal = defineStyle({
   _active: { bgColor: "teal.200" },
 });
 
+const back = defineStyle({
+  bgColor: "red.700",
+  color: "teal.200",
+  _hover: { bgColor: "red.800" },
+  _active: { bgColor: "red.800" },
+})
+
 export const buttonTheme = defineStyleConfig({
   baseStyle,
-  variants: { outline, modal },
+  variants: { outline, modal, back },
   defaultProps: { variant: "outline" },
 });

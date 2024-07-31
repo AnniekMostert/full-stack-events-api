@@ -68,11 +68,11 @@ export const DeleteButton = ({ event }) => {
             Are you sure you want to delete the event: {event.title}?
           </ModalBody>
           <ModalFooter flexDirection={["column", "row"]} gap="10px">
+            <Button variant="back" onClick={onClose} flex={{ sm: 1 }}>
+              No, please go back
+            </Button>
             <Button variant="modal" onClick={onDelete} flex={{ sm: 1 }}>
               Yes I want to delete
-            </Button>
-            <Button variant="modal" onClick={onClose} flex={{ sm: 1 }}>
-              No, please go back
             </Button>
           </ModalFooter>
         </ModalContent>

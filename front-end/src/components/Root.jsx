@@ -3,10 +3,10 @@ import { Outlet } from "react-router-dom";
 import { Box } from "@chakra-ui/react";
 import { Header } from "./Header";
 
-export const Root = () => {
+export const Root = ({user}) => {
   return (
     <Box>
-      <Header />
+      <Header user={user} />
       <Outlet />
     </Box>
   );
