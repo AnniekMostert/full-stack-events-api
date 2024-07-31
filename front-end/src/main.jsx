@@ -17,6 +17,10 @@ import { jwtDecode } from "jwt-decode";
 const App = () => {
   const [user, setUser] = useState(null);
 
+  const handleLogin = () => {
+    console.log("This is handleLogin");
+  }
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -47,7 +51,7 @@ const App = () => {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Root user={user} />,
+      element: <Root user={user} onLogin={handleLogin} />,
       children: [
         {
           path: "/",

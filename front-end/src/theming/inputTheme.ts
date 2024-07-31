@@ -16,7 +16,7 @@ const baseStyle = definePartsStyle({
 const variantOutline = definePartsStyle({
   field: {
     borderColor: "red.700",
-    _hover: { borderColor: "red.700", bgColor: "teal.200" },
+    _hover: { borderColor: "red.700", bgColor: "teal.100" },
     _focusVisible: {
       borderColor: "red.700",
       bgColor: "teal.200",

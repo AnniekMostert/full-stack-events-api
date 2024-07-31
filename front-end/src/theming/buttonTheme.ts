@@ -9,8 +9,8 @@ const baseStyle = defineStyle({
 const outline = defineStyle({
   ...baseStyle,
   bgColor: "teal.200",
-  _hover: { bgColor: "teal.300" },
-  _active: { bgColor: "teal.300" },
+  _hover: { bgColor: "teal.100" },
+  _active: { bgColor: "teal.100" },
 });
 
 const modal = defineStyle({

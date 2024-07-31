@@ -3,7 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Login from "./Login";
 
-export const Header = ({ user }) => {
+export const Header = ({ user, handleLogin }) => {
   const stickyStyle = {
     position: ["sticky", "-webkit-sticky"],
     top: "0",
@@ -34,7 +34,7 @@ export const Header = ({ user }) => {
             </Link>
           </>
         ) : (
-          <Login onLogin={handleLogin} />
+          <Login handleLogin={handleLogin} />
         )}
       </Flex>
     </Flex>

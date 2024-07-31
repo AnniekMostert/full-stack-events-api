@@ -52,6 +52,7 @@ const Login = ({ onLogin }) => {
           isClosable: true,
         });
       }
+      onClose();
     } catch (error) {
       toast({
         title: "An error occurred",
@@ -59,7 +60,7 @@ const Login = ({ onLogin }) => {
         duration: 2000,
         isClosable: true,
       });
-      onClose();
+
     }
   };
   return (
@@ -98,7 +99,7 @@ const Login = ({ onLogin }) => {
                     required
                   />
                 </FormControl>
-                <Button type="submit" colorScheme="teal">
+                <Button type="submit">
                   Login
                 </Button>
               </VStack>
