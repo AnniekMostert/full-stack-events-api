@@ -16,10 +16,7 @@ import { jwtDecode } from "jwt-decode";
 
 const App = () => {
   const [user, setUser] = useState(null);
-
-  const handleLogin = () => {
-    console.log("This is handleLogin");
-  }
+  const [loginStatus, setLoginStatus] = useState();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -46,7 +43,12 @@ const App = () => {
         localStorage.removeItem("token");
       }
     }
-  }, []);
+  }, [loginStatus]);
+
+  const handleLogin = (data) => {
+    setUser(data);
+    setLoginStatus((prevStatus) => !prevStatus);
+  };
 
   const router = createBrowserRouter([
     {
@@ -99,7 +101,7 @@ const App = () => {
       Checkbox: checkboxTheme,
     },
   });
-  
+
   return (
     <ChakraProvider theme={theme}>
       <RouterProvider router={router} />

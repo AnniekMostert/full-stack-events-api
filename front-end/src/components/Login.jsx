@@ -54,13 +54,13 @@ const Login = ({ onLogin }) => {
       }
       onClose();
     } catch (error) {
+      console.error(error);
       toast({
         title: "An error occurred",
         status: "error",
         duration: 2000,
         isClosable: true,
       });
-
     }
   };
   return (
@@ -99,9 +99,7 @@ const Login = ({ onLogin }) => {
                     required
                   />
                 </FormControl>
-                <Button type="submit">
-                  Login
-                </Button>
+                <Button type="submit">Login</Button>
               </VStack>
             </form>
           </ModalBody>
