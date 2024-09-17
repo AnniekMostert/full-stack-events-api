@@ -154,7 +154,7 @@ export const EventPage = ({ user }) => {
             >
               Actions:
             </Text>
-            {user && event && user.id === event.userId (
+            {user && event && user.id === event.userId && (
               <>
                 <EditButton event={event} categories={categories} />
                 <DeleteButton event={event} />

@@ -91,7 +91,6 @@ export const EditButton = ({ event, categories }) => {
       });
       onClose();
       reset();
-      window.location.reload();
     } catch (error) {
       console.error("Error during editing event:", error);
     }

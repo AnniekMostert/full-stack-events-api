@@ -252,7 +252,7 @@ export const AddEvent = ({ user }) => {
                   required: "Fill in a location for your event",
                 })}
               />
-              <Text color="red.500">{errors.title?.message}</Text>
+              <Text color="red.500">{errors.location?.message}</Text>
             </FormControl>
 
             <FormControl className="startTime">
